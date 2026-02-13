@@ -1,25 +1,33 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1              # Using apps API group (for Deployments)
+kind: Deployment                 # Creating a Deployment (manages Pods)
+
 metadata:
-  name: chrome-node
-  namespace: automation
+  name: chrome-node              # Name of this Deployment
+  namespace: automation          # It runs inside "automation" namespace
+
 spec:
-  replicas: 2
+  replicas: 2                    # Run 2 Chrome node pods (parallel execution)
+
   selector:
     matchLabels:
-      app: chrome-node
-  template:
+      app: chrome-node           # Deployment will manage pods with this label
+
+  template:                      # Pod template (blueprint for each pod)
     metadata:
       labels:
-        app: chrome-node
+        app: chrome-node         # Label attached to pods (must match selector)
+
     spec:
       containers:
-        - name: chrome-node
-          image: selenium/node-chrome:4.18.1
+        - name: chrome-node      # Container name inside pod
+          image: selenium/node-chrome:4.18.1   # Official Chrome node image
+
           env:
             - name: SE_EVENT_BUS_HOST
-              value: selenium-hub
+              value: selenium-hub   # Tells node where Hub service is located
+
             - name: SE_EVENT_BUS_PUBLISH_PORT
-              value: "4442"
+              value: "4442"         # Port used to send events to Hub
+
             - name: SE_EVENT_BUS_SUBSCRIBE_PORT
-              value: "4443"
+              value: "4443"         # Port used to receive events from Hub
