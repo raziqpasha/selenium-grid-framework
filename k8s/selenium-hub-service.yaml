@@ -1,0 +1,16 @@
+apiVersion: v1                    # Core API group (Services belong to v1)
+kind: Service                     # We are creating a Service object (network access to Pods)
+
+metadata:
+  name: selenium-hub              # Name of the Service (used by other Pods to connect)
+  namespace: automation           # Service created inside 'automation' namespace
+
+spec:
+  selector:
+    app: selenium-hub             # This Service will forward traffic to Pods with this label
+
+  ports:
+    - port: 4444                  # Service port (port exposed inside cluster)
+      targetPort: 4444            # Container port inside the Pod to forward traffic to
+
+  type: ClusterIP                 # Internal service (accessible only inside Kubernetes cluster)

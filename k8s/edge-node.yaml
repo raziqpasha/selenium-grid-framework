@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edge-node
+  namespace: automation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edge-node
+  template:
+    metadata:
+      labels:
+        app: edge-node
+    spec:
+      containers:
+        - name: edge-node
+          image: selenium/node-edge:4.18.1
+          env:
+            - name: SE_EVENT_BUS_HOST
+              value: selenium-hub
+            - name: SE_EVENT_BUS_PUBLISH_PORT
+              value: "4442"
+            - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+              value: "4443"
+
