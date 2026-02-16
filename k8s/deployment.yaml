@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: automation-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: automation
+  template:
+    metadata:
+      labels:
+        app: automation
+    spec:
+      containers:
+        - name: automation-container
+          image: raziq124/selenium-tests:latest
