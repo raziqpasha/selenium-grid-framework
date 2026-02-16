@@ -1,6 +1,6 @@
 package org.deploymentproject.utilities;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
@@ -9,9 +9,18 @@ public class ConfigReader {
 
     static {
         try {
-            FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
             prop = new Properties();
-            prop.load(fis);
+
+            InputStream input = ConfigReader.class
+                    .getClassLoader()
+                    .getResourceAsStream("config.properties");
+
+            if (input == null) {
+                throw new RuntimeException("config.properties not found in classpath");
+            }
+
+            prop.load(input);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
